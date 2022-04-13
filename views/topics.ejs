@@ -1,0 +1,21 @@
+<%- include("Partials/header"); -%>
+<div class="text-right">
+  
+</div>  
+
+    <% for (let i= Topics.length - 1; i>= 0; i--) { %>
+          
+      <h1><%=  Topics[i][1]  %></h1>
+      <p>
+          <%=Topics[i][2].substring(0, 100) + " ..."%>
+          <a href="/posts/<%= Topics[i][0]%>">Read More</a>
+      </p>
+    <br>
+    <% } %>
+
+  <script>
+
+
+  </script>
+
+<%- include("Partials/footer"); -%>

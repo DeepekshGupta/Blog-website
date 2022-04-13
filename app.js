@@ -21,7 +21,7 @@ const aboutContent = "Hac habitasse platea dictumst vestibulum rhoncus est pelle
 const contactContent = "Scelerisque eleifend donec pretium vulputate sapien. Rhoncus urna neque viverra justo nec ultrices. Arcu dui vivamus arcu felis bibendum. Consectetur adipiscing elit duis tristique. Risus viverra adipiscing at in tellus integer feugiat. Sapien nec sagittis aliquam malesuada bibendum arcu vitae. Consequat interdum varius sit amet mattis. Iaculis nunc sed augue lacus. Interdum posuere lorem ipsum dolor sit amet consectetur adipiscing elit. Pulvinar elementum integer enim neque. Ultrices gravida dictum fusce ut placerat orci nulla. Mauris in aliquam sem fringilla ut morbi tincidunt. Tortor posuere ac ut consequat semper viverra nam libero.";
 // let posts1;
 const id = process.env.SHEET_ID
-
+const Topics = [];
 // // Get requests--------------------------------------------------------------------------------------------------------------------------
 
 app.get("/about", function(req,res){
@@ -31,12 +31,12 @@ app.get("/about", function(req,res){
   });
   
   
-  app.get("/contact", function(req,res){
-  
-    res.render("contact",{text3 : contactContent});
-  
-  });
-  
+app.get("/contact", function(req,res){
+
+res.render("contact",{text3 : contactContent});
+
+});
+
 
 
 app.get("/compose", function(req,res){
@@ -45,6 +45,15 @@ app.get("/compose", function(req,res){
 
 });
 
+app.get("/edit", function(req,res){
+
+    res.render("edit");
+});
+
+app.get("/delete", function(req,res){
+
+    res.render("delete");
+});
 
 app.get("/posts/:postName", function(req, res){
 
@@ -64,8 +73,25 @@ app.get("/posts/:postName", function(req, res){
   });
 
 
+app.get("/Topics/:postName", function(req, res){
 
-// ------------------------------------------------------Google Sheets----------------------------------------------------------
+    const requestedTag = _.lowerCase(req.params.postName);
+      for(i = 0; i<posts1.values.length;i++){ 
+          const storedTag = _.lowerCase(posts1.values[i][3]);
+          if (storedTag === requestedTag) {
+            Topics.push(posts1.values[i])
+          }
+      }
+
+      res.render("topics", {
+        Topics: Topics
+        });
+  
+  
+  });
+
+
+// ------------------------------------------------------Google Sheets API----------------------------------------------------------
 const authentication = async () => {
     const auth = new google.auth.GoogleAuth({
         keyFile: process.env.GOOGLE_APPLICATION_CREDENTIALS,
@@ -95,7 +121,7 @@ app.get('/', async(req, res)=>{
     
         const response = await sheets.spreadsheets.values.get({
             spreadsheetId: id,
-            range: 'Sheet1'
+            range: 'Sheet1!A2:AA1000'
         })
         posts1 = response.data;
         console.log(posts1);
@@ -116,6 +142,7 @@ app.post('/publish', async(req, res)=>{
         const ID = posts1.values.length;  
         const newName  = req.body.Title;
         const newValue = req.body.Body;
+        const tag = req.body.tag; 
 
         
 
@@ -128,7 +155,7 @@ app.post('/publish', async(req, res)=>{
             valueInputOption: 'USER_ENTERED',
             resource: {
                 values: [
-                    [ID, newName, newValue],
+                    [ID, newName, newValue, tag],
                 ]
             }
         })
@@ -140,6 +167,24 @@ app.post('/publish', async(req, res)=>{
     }
 
 });
+
+// app.put('/update', async (req, res) => {
+//     const auth = authentication();
+//     const googleSheet = await getGoogleSheet(auth);
+  
+//     await googleSheet.spreadsheets.values.update({
+//       auth,
+//       spreadsheetId,
+//       range: 'Sheet1!A2:B2',
+//       valueInputOption: 'USER_ENTERED',
+//       resource: {
+//         values: [['Elon', 'Make a spaceship']],
+//       },
+//     });
+  
+//     res.send('Updated Successfully');
+//   });
+
 
 app.listen(process.env.PORT || 3000, () => console.log("server is running on port 3000"))
 
