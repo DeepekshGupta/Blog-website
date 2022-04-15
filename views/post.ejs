@@ -2,10 +2,20 @@
 <div class="text-right">
   
 </div>  
+  <p><%=date%></p>
 
   <h1 style="text-align: center;"><%=title%></h1>
-  <p  style="text-align: center;"><%=content%></p>
-
+ 
+  <img src= <%=img%> class="center img-fluid" alt="">
+ 
+<br>
+  <% for (let i= 5; i< content.length; i++) { %>
+      
+    <p style="text-align: center;">
+        <%=  content[i]  %>
+    </p>
+  <br>
+  <% } %>
   <script>
 
   </script>

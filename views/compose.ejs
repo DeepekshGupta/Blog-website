@@ -1,14 +1,29 @@
 
 <%- include("Partials/header"); -%>
 <h1>Compose</h1>
+
 <form class="" action="/publish" method="post">
   <div class="form-group">
     <label>Title</label>
     <input class="form-control" type="text" name="Title">
-    <label>Post</label>
-    <textarea class="form-control" name="Body" rows="5" cols="30"></textarea>
+
     <label>Tag</label>
-    <input class="form-control" type="text" name="tag">
+    <input class="form-control" type="text" name="tag" placeholder="CompSci, Phy, Bio, Evo, Maths">
+
+    <label>Images</label>
+    <input class="form-control" type="text" name="img" value="https://drive.google.com/uc?export=view&id=1mUcBV8OKKjwcroBeWODsAHMUnK4YGpnH">
+
+    <label>Paragraph 1</label>
+    <textarea class="form-control" name="Body1" rows="5" cols="30"></textarea>
+
+    <label>Paragraph 2</label>
+    <textarea class="form-control" name="Body2" rows="5" cols="30"></textarea>
+
+    <label>Paragraph 3</label>
+    <textarea class="form-control" name="Body3" rows="5" cols="30"></textarea>
+
+    <label>Paragraph 4</label>
+    <textarea class="form-control" name="Body4" rows="5" cols="30"></textarea> 
   </div>
   <button class="btn btn-primary" type="submit" name="button">Publish</button>
 </form>
