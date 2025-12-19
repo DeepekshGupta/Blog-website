@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/DeepekshGupta/Blog-website#readme",
   "dependencies": {
-    "dotenv": "^16.0.0",
+    "dotenv": "^16.6.1",
     "ejs": "^3.1.6",
     "express": "^4.17.3",
     "googleapis": "^100.0.0",
